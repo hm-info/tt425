@@ -6,6 +6,8 @@ This section adds the SC type cutting/job file reference to the TT425 manual. Fi
 
 An illustrative example with fictitious customer, production, profile and file path values is provided instead of the original CSV.
 
+> **Note:** This SC type job file can be used by machines with the HMS_W interface. These machines do not support macros. The macro/NC operation field (`nccode`) must be left empty.
+
 ## File structure
 
 The sample uses a semicolon (`;`) as the field separator. The first row contains 29 field names; each following row describes one part. Separators are retained for empty values. The header order and spelling are:
@@ -43,7 +45,7 @@ id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;rein
 | `offno` | String(255) | — | Yes | Contract number |
 | `customer` | String(255) | — | Yes | Customer information |
 | `date` | String(255) | — | Yes | Date |
-| `nccode` | String(255) | — | — | Process information. In the above work file, the first 6 digits for the H09020402355 operation in the first part of the segment represent id the Macro information which is 090204, and the last 5 digits which is 02355 represent the processing position. 02355 -> 235.5 mm, the last digit is for the decimal part. As it is seen in other parts, 'H letter + Macro information + process position' must be entered beside to define a new operation. |
+| `nccode` | String(255) | — | — | Machines with the HMS_W interface do not support macros. Leave this field empty. |
 | `isfix` | — | — | — | No type or definition is provided in the source. The sample CSV contains `0`. |
 | `colorcode` | String(255) | — | — | Color code descriptions:<br>00: White without gasket<br>01: Bottom colored without gasket<br>02: Top colored without gasket<br>03: Top and bottom colored without gasket<br>10: White with gasket<br>11: Bottom colored with gasket<br>12: Top colored with gasket<br>13: Top and bottom colored with gasket This data used for Haffner four head corner welding and corner cleaner machines |
 | `colorinfo` | String(255) | — | Yes | color description |
@@ -54,11 +56,10 @@ id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;rein
 
 ## Length and angle notation
 
-The source defines the final digit as the decimal place for `ksnbar`, `ktnbar` and the NC operation position:
+The source defines the final digit as the decimal place for `ksnbar` and `ktnbar`:
 
 - `ksnbar = 59800` → 5980.0 mm.
 - `ktnbar = 4710` → 471.0 mm.
-- NC position `02355` → 235.5 mm.
 
 The source does not separately specify this scaling rule for `width`, `height` or `reinfbar`.
 
@@ -91,29 +92,20 @@ The sample CSV contains text with the code, such as `HEAD (3)`, `RIGHT (4)` and 
 
 These codes are used by Haffner four head corner welding and corner cleaner machines. `colorinfo` is a separate color description field.
 
-## NC operation information (`nccode`)
+## Macro/NC operation field (`nccode`)
+
+Machines with the HMS_W interface do not support macros. Keep the `nccode` column in the file structure, but leave its value empty. Preserve the semicolon separators (`;`) on both sides of the empty field.
 
 ```text
-H + 090204 + 02355 = H09020402355
+date;nccode;isfix
+2026-01-01;;0
 ```
-
-- `H`: start of an operation.
-- `090204`: 6-digit macro ID.
-- `02355`: 5-digit operation position, 235.5 mm.
-
-Multiple operations are concatenated in the same field without an additional separator. For example:
-
-```text
-H05130112240H05130111870
-```
-
-This example uses macro `051301` at 1224.0 mm and 1187.0 mm. The `nccode` field is empty for part 5 in the sample file.
 
 ## Illustrative part example
 
 ```csv
 id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;reinf;reinfbar;pos;prono;offno;customer;date;nccode;isfix;colorcode;colorinfo;mainprofile;subcust;image;DATA1
-1;1;59800;1;4710;45|90;135|90;PROFILE001;DEMO PROFILE;4650;4100;1;1;HEAD (3);REINF001;0;1;DEMO-PR001;DEMO-CT001;DEMO CUSTOMER;2026-01-01;H09020402355;0;10;WHITE WITH GASKET;MAIN001;;images/part-001.wmf;
+1;1;59800;1;4710;45|90;135|90;PROFILE001;DEMO PROFILE;4650;4100;1;1;HEAD (3);REINF001;0;1;DEMO-PR001;DEMO-CT001;DEMO CUSTOMER;2026-01-01;;0;10;WHITE WITH GASKET;MAIN001;;images/part-001.wmf;
 ```
 
 This record describes part 1 of bar 1: bar length 5980.0 mm, part length 471.0 mm, profile code `PROFILE001`, orientation `HEAD (3)`, trolley `1` and box `1`. Customer, production, profile and file path values are illustrative. The image path demonstrates the format only.

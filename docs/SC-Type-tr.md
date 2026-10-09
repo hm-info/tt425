@@ -6,6 +6,8 @@ Bu bölüm, TT425 kılavuzuna eklenen SC tipi kesim/iş dosyası başvurusudur. 
 
 Özgün CSV yerine temsili müşteri, üretim, profil ve dosya yolu değerleri içeren bir örnek sunulmuştur.
 
+> **Not:** Bu SC tipi iş dosyası, HMS_W arayüzünü kullanan makinelerde kullanılabilir. Bu makinelerde makro desteği yoktur. Makro/NC işlem alanı (`nccode`) boş bırakılmalıdır.
+
 ## Dosya yapısı
 
 Örnek dosyada alan ayırıcı noktalı virgüldür (`;`). İlk satır 29 alanın başlığını içerir; sonraki her satır bir parçayı tanımlar. Boş değerlerde ayırıcılar korunur. Başlıkların sırası ve yazımı aşağıdaki gibidir:
@@ -43,7 +45,7 @@ Kesim ve etiket sütunlarında **Evet**, kaynakta açıkça işaretlenen alanlar
 | `offno` | String(255) | — | Evet | Sözleşme numarası. |
 | `customer` | String(255) | — | Evet | Müşteri bilgisi. |
 | `date` | String(255) | — | Evet | Tarih. |
-| `nccode` | String(255) | — | — | İşlem bilgisi. `H` + 6 haneli makro kimliği + 5 haneli işlem konumu biçimindedir. Ayrıntılar aşağıdadır. |
+| `nccode` | String(255) | — | — | HMS_W arayüzünü kullanan makinelerde makro desteği yoktur. Bu alan boş bırakılmalıdır. |
 | `isfix` | — | — | — | Kaynak dosyada tür ve açıklama belirtilmemiştir. Örnek CSV’de değer `0` olarak verilmiştir. |
 | `colorcode` | String(255) | — | — | Renk kodu. Aşağıdaki renk kodları tablosuna bakın. Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kullanılır. |
 | `colorinfo` | String(255) | — | Evet | Renk açıklaması. |
@@ -54,11 +56,10 @@ Kesim ve etiket sütunlarında **Evet**, kaynakta açıkça işaretlenen alanlar
 
 ## Uzunluk ve açı gösterimi
 
-Kaynakta `ksnbar`, `ktnbar` ve NC işlem konumu için son hane ondalık basamak olarak açıklanır:
+Kaynakta `ksnbar` ve `ktnbar` için son hane ondalık basamak olarak açıklanır:
 
 - `ksnbar = 59800` → 5980,0 mm.
 - `ktnbar = 4710` → 471,0 mm.
-- NC işlem konumu `02355` → 235,5 mm.
 
 `width`, `height` ve `reinfbar` için kaynakta bu ölçekleme kuralı ayrıca belirtilmemiştir.
 
@@ -91,29 +92,20 @@ Açı biçimi `tilt|pivot` şeklindedir. Örnek CSV’de `l = 45|90` ve `r = 135
 
 Bu kodlar Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kullanılır. `colorinfo`, ayrı bir renk açıklaması alanıdır.
 
-## NC işlem bilgisi (`nccode`)
+## Makro/NC işlem alanı (`nccode`)
+
+HMS_W arayüzünü kullanan makinelerde makro desteği yoktur. `nccode` sütunu dosya yapısında korunur, ancak değeri boş bırakılır. Boş alanın iki yanındaki noktalı virgüller (`;`) korunmalıdır.
 
 ```text
-H + 090204 + 02355 = H09020402355
+date;nccode;isfix
+2026-01-01;;0
 ```
-
-- `H`: işlem başlangıcı.
-- `090204`: 6 haneli makro kimliği.
-- `02355`: 5 haneli işlem konumu, 235,5 mm.
-
-Birden fazla işlem aynı alana araya ayırıcı eklenmeden art arda yazılır. Örneğin:
-
-```text
-H05130112240H05130111870
-```
-
-Bu örnekte `051301` makrosu 1224,0 mm ve 1187,0 mm konumlarında iki kez kullanılır. Örnek dosyanın 5. parçasında `nccode` alanı boştur.
 
 ## Temsili parça örneği
 
 ```csv
 id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;reinf;reinfbar;pos;prono;offno;customer;date;nccode;isfix;colorcode;colorinfo;mainprofile;subcust;image;DATA1
-1;1;59800;1;4710;45|90;135|90;PROFILE001;DEMO PROFILE;4650;4100;1;1;HEAD (3);REINF001;0;1;DEMO-PR001;DEMO-CT001;DEMO CUSTOMER;2026-01-01;H09020402355;0;10;WHITE WITH GASKET;MAIN001;;images/part-001.wmf;
+1;1;59800;1;4710;45|90;135|90;PROFILE001;DEMO PROFILE;4650;4100;1;1;HEAD (3);REINF001;0;1;DEMO-PR001;DEMO-CT001;DEMO CUSTOMER;2026-01-01;;0;10;WHITE WITH GASKET;MAIN001;;images/part-001.wmf;
 ```
 
 Bu kayıt, 1 numaralı çubuğun 1. parçasını tanımlar: çubuk uzunluğu 5980,0 mm, parça uzunluğu 471,0 mm, profil kodu `PROFILE001`, konum `HEAD (3)`, araba `1` ve kutu `1`. Müşteri, üretim, profil ve dosya yolu değerleri temsilidir. Görsel yolu yalnızca biçimi göstermek için verilmiştir.
