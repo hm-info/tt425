@@ -81,3 +81,7 @@
 ### Logo Settings
 
  <img src="_media/label-settings-en/18-logo.jpeg" alt="Logo" width="50%" />
+
+## SC type job file information
+
+[SC type job file fields and sample CSV](SC-Type-en.md)

@@ -81,3 +81,7 @@
 ### Logo 
 
  <img src="_media/label-settings-tr/18-logo.jpeg" alt="Logo" width="50%" />
+
+## SC tipi iş dosyası bilgileri
+
+[SC tipi iş dosyası alanları ve örnek CSV](SC-Type-tr.md)
