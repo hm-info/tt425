@@ -6,11 +6,13 @@ This section adds the SC type cutting/job file reference to the TT425 manual. Fi
 
 An illustrative example with fictitious customer, production, profile and file path values is provided instead of the original CSV.
 
-> **Note:** This SC type job file can be used by machines with the HMS_W interface. These machines do not support macros. The macro/NC operation field (`nccode`) must be left empty.
+> **Note:** This SC type job file can be used by machines with the HMS_W interface. The CSV does not need to contain all fields listed below. Keep the fields required for file recognition and cutting (`id`, `ksn`, `ksnbar`, `code`, `ktnbar`, `l`, `r`), together with any fields used by the application or the selected FastReport label/barcode template. Fields used only for printing are optional when the template does not use them. HMS_W does not read `nccode`, `isfix` or `subcust`; these columns can be omitted entirely. Macros are not supported.
+>
+> `DATA1` is not always label-only: when it contains a numeric value, HMS_W also uses it as the profile height. Retain it if the machine's workflow needs that value.
 
 ## File structure
 
-The sample uses a semicolon (`;`) as the field separator. The first row contains 29 field names; each following row describes one part. Separators are retained for empty values. The header order and spelling are:
+The full reference sample uses a semicolon (`;`) as the field separator and contains 29 field names in its first row; each following row describes one part. This is an example, not a requirement to include 29 columns. HMS_W reads SC fields by header name, so the column order may change. Keep the header names and align each record with its header. If a column is omitted, remove both its header and the corresponding value from every record. If a column is retained with an empty value, preserve its separator. The full sample header is:
 
 ```text
 id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;reinf;reinfbar;pos;prono;offno;customer;date;nccode;isfix;colorcode;colorinfo;mainprofile;subcust;image;DATA1
@@ -45,14 +47,14 @@ id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;rein
 | `offno` | String(255) | — | Yes | Contract number |
 | `customer` | String(255) | — | Yes | Customer information |
 | `date` | String(255) | — | Yes | Date |
-| `nccode` | String(255) | — | — | Machines with the HMS_W interface do not support macros. Leave this field empty. |
-| `isfix` | — | — | — | No type or definition is provided in the source. The sample CSV contains `0`. |
+| `nccode` | String(255) | — | — | HMS_W does not read this field and does not support macros. The column can be omitted. |
+| `isfix` | — | — | — | No type or definition is provided in the source. The sample CSV contains `0`. HMS_W does not read this field; the column can be omitted. |
 | `colorcode` | String(255) | — | — | Color code descriptions:<br>00: White without gasket<br>01: Bottom colored without gasket<br>02: Top colored without gasket<br>03: Top and bottom colored without gasket<br>10: White with gasket<br>11: Bottom colored with gasket<br>12: Top colored with gasket<br>13: Top and bottom colored with gasket This data used for Haffner four head corner welding and corner cleaner machines |
 | `colorinfo` | String(255) | — | Yes | color description |
 | `mainprofile` | String(255) | — | Yes | main profile code Some machining centers using this data |
-| `subcust` | — | — | — | detailed information about customer |
+| `subcust` | — | — | — | Detailed customer information. HMS_W does not read this field; the column can be omitted. |
 | `image` | String(255) | — | Yes | If an image is to be printed to barcode, the path to the image is entered here. |
-| `DATA1` | String(255) | — | Yes | Extra information to print in barcode. (optionally) |
+| `DATA1` | String(255) | — | Yes | Optional extra label/barcode information. HMS_W also uses a numeric value as the profile height; retain this field when needed by the machine's workflow. |
 
 ## Length and angle notation
 
@@ -94,12 +96,7 @@ These codes are used by Haffner four head corner welding and corner cleaner mach
 
 ## Macro/NC operation field (`nccode`)
 
-Machines with the HMS_W interface do not support macros. Keep the `nccode` column in the file structure, but leave its value empty. Preserve the semicolon separators (`;`) on both sides of the empty field.
-
-```text
-date;nccode;isfix
-2026-01-01;;0
-```
+Machines with the HMS_W interface do not support macros and do not read `nccode`. The column can be removed entirely; it does not have to remain as an empty placeholder. `isfix` and `subcust` can also be removed because HMS_W does not read them. If these columns are retained for compatibility with another system, leave `nccode` empty and keep the separators for any empty values.
 
 ## Illustrative part example
 

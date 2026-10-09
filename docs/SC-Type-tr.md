@@ -6,11 +6,13 @@ Bu bölüm, TT425 kılavuzuna eklenen SC tipi kesim/iş dosyası başvurusudur. 
 
 Özgün CSV yerine temsili müşteri, üretim, profil ve dosya yolu değerleri içeren bir örnek sunulmuştur.
 
-> **Not:** Bu SC tipi iş dosyası, HMS_W arayüzünü kullanan makinelerde kullanılabilir. Bu makinelerde makro desteği yoktur. Makro/NC işlem alanı (`nccode`) boş bırakılmalıdır.
+> **Not:** Bu SC tipi iş dosyası, HMS_W arayüzünü kullanan makinelerde kullanılabilir. CSV dosyasında aşağıda listelenen alanların tamamının bulunması gerekmez. Dosyanın tanınması ve kesim için gerekli alanlar (`id`, `ksn`, `ksnbar`, `code`, `ktnbar`, `l`, `r`) ile uygulamanın veya seçilen FastReport etiket/barkod şablonunun kullandığı alanlar korunmalıdır. Yalnızca baskıda kullanılan alanlar, şablonda kullanılmıyorsa CSV'ye eklenmeyebilir. HMS_W, `nccode`, `isfix` ve `subcust` alanlarını okumaz; bu sütunlar tamamen kaldırılabilir. Makro desteği yoktur.
+>
+> `DATA1` her zaman yalnızca etiket alanı değildir: sayısal değer içerdiğinde HMS_W bu değeri profil yüksekliği olarak da kullanır. Makinenin çalışma biçimi bu değere ihtiyaç duyuyorsa sütun korunmalıdır.
 
 ## Dosya yapısı
 
-Örnek dosyada alan ayırıcı noktalı virgüldür (`;`). İlk satır 29 alanın başlığını içerir; sonraki her satır bir parçayı tanımlar. Boş değerlerde ayırıcılar korunur. Başlıkların sırası ve yazımı aşağıdaki gibidir:
+Tam başvuru örneğinde alan ayırıcı noktalı virgüldür (`;`). İlk satır 29 alanın başlığını içerir; sonraki her satır bir parçayı tanımlar. Bu, 29 sütunun tamamının bulunmasını zorunlu kılan bir yapı değildir. HMS_W, SC alanlarını başlık adına göre okur; sütun sırası değişebilir. Başlık adları korunmalı ve her satırdaki değerler başlıklarıyla eşleşmelidir. Bir sütun kaldırıldığında hem başlığı hem de tüm parça satırlarındaki karşılık gelen değeri kaldırılmalıdır. Sütun korunup değeri boş bırakılıyorsa ayırıcı korunur. Tam örneğin başlığı aşağıdaki gibidir:
 
 ```text
 id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;reinf;reinfbar;pos;prono;offno;customer;date;nccode;isfix;colorcode;colorinfo;mainprofile;subcust;image;DATA1
@@ -45,14 +47,14 @@ Kesim ve etiket sütunlarında **Evet**, kaynakta açıkça işaretlenen alanlar
 | `offno` | String(255) | — | Evet | Sözleşme numarası. |
 | `customer` | String(255) | — | Evet | Müşteri bilgisi. |
 | `date` | String(255) | — | Evet | Tarih. |
-| `nccode` | String(255) | — | — | HMS_W arayüzünü kullanan makinelerde makro desteği yoktur. Bu alan boş bırakılmalıdır. |
-| `isfix` | — | — | — | Kaynak dosyada tür ve açıklama belirtilmemiştir. Örnek CSV’de değer `0` olarak verilmiştir. |
+| `nccode` | String(255) | — | — | HMS_W bu alanı okumaz ve makro desteklemez. Sütun kaldırılabilir. |
+| `isfix` | — | — | — | Kaynak dosyada tür ve açıklama belirtilmemiştir. Örnek CSV’de değer `0` olarak verilmiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
 | `colorcode` | String(255) | — | — | Renk kodu. Aşağıdaki renk kodları tablosuna bakın. Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kullanılır. |
 | `colorinfo` | String(255) | — | Evet | Renk açıklaması. |
 | `mainprofile` | String(255) | — | Evet | Ana profil kodu. Bazı işleme merkezleri bu veriyi kullanır. |
-| `subcust` | — | — | — | Müşteri hakkında ayrıntılı bilgi. Kaynak dosyada veri türü belirtilmemiştir. |
+| `subcust` | — | — | — | Müşteri hakkında ayrıntılı bilgi. Kaynak dosyada veri türü belirtilmemiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
 | `image` | String(255) | — | Evet | Etikete/barkoda görsel basılacaksa görsel dosyasının yolu. |
-| `DATA1` | String(255) | — | Evet | Etikete/barkoda basılacak ek bilgi (isteğe bağlı). |
+| `DATA1` | String(255) | — | Evet | Etikete/barkoda basılacak ek bilgi (isteğe bağlı). HMS_W, sayısal değeri profil yüksekliği olarak da kullanır; makinenin çalışma biçimi gerektiriyorsa korunmalıdır. |
 
 ## Uzunluk ve açı gösterimi
 
@@ -94,12 +96,7 @@ Bu kodlar Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kul
 
 ## Makro/NC işlem alanı (`nccode`)
 
-HMS_W arayüzünü kullanan makinelerde makro desteği yoktur. `nccode` sütunu dosya yapısında korunur, ancak değeri boş bırakılır. Boş alanın iki yanındaki noktalı virgüller (`;`) korunmalıdır.
-
-```text
-date;nccode;isfix
-2026-01-01;;0
-```
+HMS_W arayüzünü kullanan makinelerde makro desteği yoktur ve `nccode` okunmaz. Bu sütun tamamen kaldırılabilir; boş bir yer tutucu olarak dosyada kalması gerekmez. HMS_W tarafından okunmayan `isfix` ve `subcust` sütunları da kaldırılabilir. Başka bir sistemle uyumluluk için bu sütunlar korunuyorsa `nccode` boş bırakılmalı ve boş değerlerin ayırıcıları korunmalıdır.
 
 ## Temsili parça örneği
 
