@@ -22,39 +22,39 @@ id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;rein
 
 ## Field definitions
 
-**Yes** in the Cutting and Label columns reproduces the source markings. **—** means no marking/definition is provided; it does not establish whether a field is required. `String(255)` is text, `Integer` is an integer and `Double` is a decimal number. The `l` and `r` fields combine two numbers with `|`.
+**Yes** in the Cutting and Label columns reproduces the source markings. **—** means no marking/definition is provided; required fields are identified separately in the **Required for HMS_W** column. In that column, **Yes** marks a core field that must be present in the CSV; **No** marks a field included only when needed by the application or FastReport label/barcode template; **Conditional** marks a field needed by the machine's workflow. Retain `DATA1` when a numeric profile height is used. HMS_W does not read `nccode`, `isfix` or `subcust`, so these columns can be omitted. `String(255)` is text, `Integer` is an integer and `Double` is a decimal number. The `l` and `r` fields combine two numbers with `|`.
 
-| Field | Type | Cutting | Label | Description |
-| --- | --- | --- | --- | --- |
-| `id` | String(255) | — | Yes | Part id |
-| `ksn` | Integer | — | Yes | Displays the number of the bars installed. As it is shown in sample tab, since the first four lines in the job file are '1', the operations will be done in the same bar. And there are 5 pieces indicated by bar number 2. |
-| `ksnbar` | Double | — | Yes | The bar number(id) is given by ksn. The 59800 number in the work file is 5980.0 mm. The last digit of the 5-digit number indicates the decimal part |
-| `ktn` | Integer | — | Yes | It refers to the order of parts in the same bar. It is seen that the work file has 4 parts and 1 to 4 values. |
-| `ktnbar` | Double | Yes | Yes | Expresses the length of the part. As it is shown in sample tab, the number entered as 4710 on part1 of bar1 is actually 471.0 mm. (So, the last digit of 4710 indicates the decimal part). |
-| `l` | Double &#124; Double | Yes | Yes | Cutting angle of head of part. The number before "&#124;" character is for the tilt angle. And the number after "&#124;" character for the pivot angle. This values can get decimal value. i.e., 45.55&#124;90.00 |
-| `r` | Double &#124; Double | Yes | Yes | Cutting angle of end of part. The number before "&#124;" character is for the tilt angle. And the number after "&#124;" character for the pivot angle. This values can get decimal value. i.e., 45.55&#124;90.00 |
-| `code` | String(255) | — | Yes | profile code |
-| `info` | String(255) | — | Yes | Detailed information about bar |
-| `width` | Double | — | Yes | Frame width |
-| `height` | Double | — | Yes | Frame height |
-| `trolley` | String(255) | — | Yes | Indicates that which part will be put in the which trolley |
-| `box` | String(255) | — | Yes | Indicates that which part will be put in the which box |
-| `orientation` | String(255) | — | Yes | Location of cut part on the window. (Such as up,down,left)<br>0: Not important<br>1: Meaning Sill or Bottom side<br>2: Meaning Left side<br>3: Meaning Head or Top side<br>4: Meaning Right side Some machining centers using this data |
-| `reinf` | String(255) | — | Yes | Reinforcement code |
-| `reinfbar` | Double | — | Yes | Reinforcement length |
-| `pos` | String(255) | — | Yes | Window no. All parts of window takes the same value. (It is different for each window) |
-| `prono` | String(255) | — | Yes | Production number |
-| `offno` | String(255) | — | Yes | Contract number |
-| `customer` | String(255) | — | Yes | Customer information |
-| `date` | String(255) | — | Yes | Date |
-| `nccode` | String(255) | — | — | HMS_W does not read this field and does not support macros. The column can be omitted. |
-| `isfix` | — | — | — | No type or definition is provided in the source. The sample CSV contains `0`. HMS_W does not read this field; the column can be omitted. |
-| `colorcode` | String(255) | — | — | Color code descriptions:<br>00: White without gasket<br>01: Bottom colored without gasket<br>02: Top colored without gasket<br>03: Top and bottom colored without gasket<br>10: White with gasket<br>11: Bottom colored with gasket<br>12: Top colored with gasket<br>13: Top and bottom colored with gasket This data used for Haffner four head corner welding and corner cleaner machines |
-| `colorinfo` | String(255) | — | Yes | color description |
-| `mainprofile` | String(255) | — | Yes | main profile code Some machining centers using this data |
-| `subcust` | — | — | — | Detailed customer information. HMS_W does not read this field; the column can be omitted. |
-| `image` | String(255) | — | Yes | If an image is to be printed to barcode, the path to the image is entered here. |
-| `DATA1` | String(255) | — | Yes | Optional extra label/barcode information. HMS_W also uses a numeric value as the profile height; retain this field when needed by the machine's workflow. |
+| Field | Type | Required for HMS_W | Cutting | Label | Description |
+| --- | --- | --- | --- | --- | --- |
+| `id` | String(255) | Yes | — | Yes | Part id |
+| `ksn` | Integer | Yes | — | Yes | Displays the number of the bars installed. As it is shown in sample tab, since the first four lines in the job file are '1', the operations will be done in the same bar. And there are 5 pieces indicated by bar number 2. |
+| `ksnbar` | Double | Yes | — | Yes | The bar number(id) is given by ksn. The 59800 number in the work file is 5980.0 mm. The last digit of the 5-digit number indicates the decimal part |
+| `ktn` | Integer | No | — | Yes | It refers to the order of parts in the same bar. It is seen that the work file has 4 parts and 1 to 4 values. |
+| `ktnbar` | Double | Yes | Yes | Yes | Expresses the length of the part. As it is shown in sample tab, the number entered as 4710 on part1 of bar1 is actually 471.0 mm. (So, the last digit of 4710 indicates the decimal part). |
+| `l` | Double &#124; Double | Yes | Yes | Yes | Cutting angle of head of part. The number before "&#124;" character is for the tilt angle. And the number after "&#124;" character for the pivot angle. This values can get decimal value. i.e., 45.55&#124;90.00 |
+| `r` | Double &#124; Double | Yes | Yes | Yes | Cutting angle of end of part. The number before "&#124;" character is for the tilt angle. And the number after "&#124;" character for the pivot angle. This values can get decimal value. i.e., 45.55&#124;90.00 |
+| `code` | String(255) | Yes | — | Yes | profile code |
+| `info` | String(255) | No | — | Yes | Detailed information about bar |
+| `width` | Double | No | — | Yes | Frame width |
+| `height` | Double | No | — | Yes | Frame height |
+| `trolley` | String(255) | No | — | Yes | Indicates that which part will be put in the which trolley |
+| `box` | String(255) | No | — | Yes | Indicates that which part will be put in the which box |
+| `orientation` | String(255) | No | — | Yes | Location of cut part on the window. (Such as up,down,left)<br>0: Not important<br>1: Meaning Sill or Bottom side<br>2: Meaning Left side<br>3: Meaning Head or Top side<br>4: Meaning Right side Some machining centers using this data |
+| `reinf` | String(255) | No | — | Yes | Reinforcement code |
+| `reinfbar` | Double | No | — | Yes | Reinforcement length |
+| `pos` | String(255) | No | — | Yes | Window no. All parts of window takes the same value. (It is different for each window) |
+| `prono` | String(255) | No | — | Yes | Production number |
+| `offno` | String(255) | No | — | Yes | Contract number |
+| `customer` | String(255) | No | — | Yes | Customer information |
+| `date` | String(255) | No | — | Yes | Date |
+| `nccode` | String(255) | No | — | — | HMS_W does not read this field and does not support macros. The column can be omitted. |
+| `isfix` | — | No | — | — | No type or definition is provided in the source. The sample CSV contains `0`. HMS_W does not read this field; the column can be omitted. |
+| `colorcode` | String(255) | No | — | — | Color code descriptions:<br>00: White without gasket<br>01: Bottom colored without gasket<br>02: Top colored without gasket<br>03: Top and bottom colored without gasket<br>10: White with gasket<br>11: Bottom colored with gasket<br>12: Top colored with gasket<br>13: Top and bottom colored with gasket This data used for Haffner four head corner welding and corner cleaner machines |
+| `colorinfo` | String(255) | No | — | Yes | color description |
+| `mainprofile` | String(255) | No | — | Yes | main profile code Some machining centers using this data |
+| `subcust` | — | No | — | — | Detailed customer information. HMS_W does not read this field; the column can be omitted. |
+| `image` | String(255) | No | — | Yes | If an image is to be printed to barcode, the path to the image is entered here. |
+| `DATA1` | String(255) | Conditional | — | Yes | Optional extra label/barcode information. HMS_W also uses a numeric value as the profile height; retain this field when needed by the machine's workflow. |
 
 ## Length and angle notation
 

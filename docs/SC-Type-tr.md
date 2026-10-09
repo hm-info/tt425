@@ -22,39 +22,39 @@ id;ksn;ksnbar;ktn;ktnbar;l;r;code;info;width;height;trolley;box;orientation;rein
 
 ## Alan açıklamaları
 
-Kesim ve etiket sütunlarında **Evet**, kaynakta açıkça işaretlenen alanları gösterir. **—**, kaynakta işaret/açıklama olmadığını belirtir; alanın zorunlu olup olmadığını ifade etmez. `String(255)` metin, `Integer` tam sayı, `Double` ondalıklı sayıdır. `l` ve `r`, iki sayıyı `|` ile birleştirir.
+Kesim ve etiket sütunlarında **Evet**, kaynakta açıkça işaretlenen alanları gösterir. **—**, kaynakta işaret/açıklama olmadığını belirtir; zorunluluk bilgisi ayrı **HMS_W için zorunlu** sütununda verilmiştir. Bu sütunda **Evet**, CSV'de bulunması gereken temel alanı; **Hayır**, yalnızca uygulamada veya FastReport etiket/barkod şablonunda ihtiyaç varsa eklenen alanı; **Koşullu**, makinenin çalışma biçimine göre gereken alanı belirtir. `DATA1`, sayısal profil yüksekliği kullanılıyorsa korunmalıdır. `nccode`, `isfix` ve `subcust` HMS_W tarafından okunmaz ve kaldırılabilir. `String(255)` metin, `Integer` tam sayı, `Double` ondalıklı sayıdır. `l` ve `r`, iki sayıyı `|` ile birleştirir.
 
-| Alan | Tür | Kesim | Etiket | Açıklama |
-| --- | --- | --- | --- | --- |
-| `id` | String(255) | — | Evet | Parça kimliği. |
-| `ksn` | Integer | — | Evet | Çubuk numarası. Aynı numarayı taşıyan satırlar aynı çubuğa aittir. Örnekte ilk dört parça 1 numaralı, sonraki beş parça 2 numaralı çubuktadır. |
-| `ksnbar` | Double | — | Evet | Çubuk uzunluğu. Çubuk kimliği `ksn` alanındadır. `59800` değeri 5980,0 mm anlamına gelir; son hane ondalık basamaktır. |
-| `ktn` | Integer | — | Evet | Aynı çubuk içindeki parça sırası. Örnekte 1 numaralı çubukta 1–4 arasında dört parça bulunur. |
-| `ktnbar` | Double | Evet | Evet | Parça uzunluğu. `4710` değeri 471,0 mm anlamına gelir; son hane ondalık basamaktır. |
-| `l` | Double &#124; Double | Evet | Evet | Parçanın başlangıcındaki kesim açısı. `&#124;` öncesi tilt, sonrası pivot açısıdır. Ondalık değer kullanılabilir: `45.55&#124;90.00`. |
-| `r` | Double &#124; Double | Evet | Evet | Parçanın sonundaki kesim açısı. `&#124;` öncesi tilt, sonrası pivot açısıdır. Ondalık değer kullanılabilir: `45.55&#124;90.00`. |
-| `code` | String(255) | — | Evet | Profil kodu. |
-| `info` | String(255) | — | Evet | Çubuk hakkında ayrıntılı bilgi. |
-| `width` | Double | — | Evet | Kasa genişliği. |
-| `height` | Double | — | Evet | Kasa yüksekliği. |
-| `trolley` | String(255) | — | Evet | Parçanın yerleştirileceği araba. |
-| `box` | String(255) | — | Evet | Parçanın arabadaki yer/kutu numarası. |
-| `orientation` | String(255) | — | Evet | Kesilen parçanın pencere üzerindeki konumu. Aşağıdaki yön kodları tablosuna bakın. Bazı işleme merkezleri bu veriyi kullanır. |
-| `reinf` | String(255) | — | Evet | Destek sacı kodu. |
-| `reinfbar` | Double | — | Evet | Destek sacı uzunluğu. |
-| `pos` | String(255) | — | Evet | Pencere numarası (poz). Aynı pencereye ait tüm parçalar aynı değeri taşır; her pencerenin değeri farklıdır. |
-| `prono` | String(255) | — | Evet | Üretim numarası. |
-| `offno` | String(255) | — | Evet | Sözleşme numarası. |
-| `customer` | String(255) | — | Evet | Müşteri bilgisi. |
-| `date` | String(255) | — | Evet | Tarih. |
-| `nccode` | String(255) | — | — | HMS_W bu alanı okumaz ve makro desteklemez. Sütun kaldırılabilir. |
-| `isfix` | — | — | — | Kaynak dosyada tür ve açıklama belirtilmemiştir. Örnek CSV’de değer `0` olarak verilmiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
-| `colorcode` | String(255) | — | — | Renk kodu. Aşağıdaki renk kodları tablosuna bakın. Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kullanılır. |
-| `colorinfo` | String(255) | — | Evet | Renk açıklaması. |
-| `mainprofile` | String(255) | — | Evet | Ana profil kodu. Bazı işleme merkezleri bu veriyi kullanır. |
-| `subcust` | — | — | — | Müşteri hakkında ayrıntılı bilgi. Kaynak dosyada veri türü belirtilmemiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
-| `image` | String(255) | — | Evet | Etikete/barkoda görsel basılacaksa görsel dosyasının yolu. |
-| `DATA1` | String(255) | — | Evet | Etikete/barkoda basılacak ek bilgi (isteğe bağlı). HMS_W, sayısal değeri profil yüksekliği olarak da kullanır; makinenin çalışma biçimi gerektiriyorsa korunmalıdır. |
+| Alan | Tür | HMS_W için zorunlu | Kesim | Etiket | Açıklama |
+| --- | --- | --- | --- | --- | --- |
+| `id` | String(255) | Evet | — | Evet | Parça kimliği. |
+| `ksn` | Integer | Evet | — | Evet | Çubuk numarası. Aynı numarayı taşıyan satırlar aynı çubuğa aittir. Örnekte ilk dört parça 1 numaralı, sonraki beş parça 2 numaralı çubuktadır. |
+| `ksnbar` | Double | Evet | — | Evet | Çubuk uzunluğu. Çubuk kimliği `ksn` alanındadır. `59800` değeri 5980,0 mm anlamına gelir; son hane ondalık basamaktır. |
+| `ktn` | Integer | Hayır | — | Evet | Aynı çubuk içindeki parça sırası. Örnekte 1 numaralı çubukta 1–4 arasında dört parça bulunur. |
+| `ktnbar` | Double | Evet | Evet | Evet | Parça uzunluğu. `4710` değeri 471,0 mm anlamına gelir; son hane ondalık basamaktır. |
+| `l` | Double &#124; Double | Evet | Evet | Evet | Parçanın başlangıcındaki kesim açısı. `&#124;` öncesi tilt, sonrası pivot açısıdır. Ondalık değer kullanılabilir: `45.55&#124;90.00`. |
+| `r` | Double &#124; Double | Evet | Evet | Evet | Parçanın sonundaki kesim açısı. `&#124;` öncesi tilt, sonrası pivot açısıdır. Ondalık değer kullanılabilir: `45.55&#124;90.00`. |
+| `code` | String(255) | Evet | — | Evet | Profil kodu. |
+| `info` | String(255) | Hayır | — | Evet | Çubuk hakkında ayrıntılı bilgi. |
+| `width` | Double | Hayır | — | Evet | Kasa genişliği. |
+| `height` | Double | Hayır | — | Evet | Kasa yüksekliği. |
+| `trolley` | String(255) | Hayır | — | Evet | Parçanın yerleştirileceği araba. |
+| `box` | String(255) | Hayır | — | Evet | Parçanın arabadaki yer/kutu numarası. |
+| `orientation` | String(255) | Hayır | — | Evet | Kesilen parçanın pencere üzerindeki konumu. Aşağıdaki yön kodları tablosuna bakın. Bazı işleme merkezleri bu veriyi kullanır. |
+| `reinf` | String(255) | Hayır | — | Evet | Destek sacı kodu. |
+| `reinfbar` | Double | Hayır | — | Evet | Destek sacı uzunluğu. |
+| `pos` | String(255) | Hayır | — | Evet | Pencere numarası (poz). Aynı pencereye ait tüm parçalar aynı değeri taşır; her pencerenin değeri farklıdır. |
+| `prono` | String(255) | Hayır | — | Evet | Üretim numarası. |
+| `offno` | String(255) | Hayır | — | Evet | Sözleşme numarası. |
+| `customer` | String(255) | Hayır | — | Evet | Müşteri bilgisi. |
+| `date` | String(255) | Hayır | — | Evet | Tarih. |
+| `nccode` | String(255) | Hayır | — | — | HMS_W bu alanı okumaz ve makro desteklemez. Sütun kaldırılabilir. |
+| `isfix` | — | Hayır | — | — | Kaynak dosyada tür ve açıklama belirtilmemiştir. Örnek CSV’de değer `0` olarak verilmiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
+| `colorcode` | String(255) | Hayır | — | — | Renk kodu. Aşağıdaki renk kodları tablosuna bakın. Haffner dört kafa köşe kaynak ve köşe temizleme makinelerinde kullanılır. |
+| `colorinfo` | String(255) | Hayır | — | Evet | Renk açıklaması. |
+| `mainprofile` | String(255) | Hayır | — | Evet | Ana profil kodu. Bazı işleme merkezleri bu veriyi kullanır. |
+| `subcust` | — | Hayır | — | — | Müşteri hakkında ayrıntılı bilgi. Kaynak dosyada veri türü belirtilmemiştir. HMS_W bu alanı okumaz; sütun kaldırılabilir. |
+| `image` | String(255) | Hayır | — | Evet | Etikete/barkoda görsel basılacaksa görsel dosyasının yolu. |
+| `DATA1` | String(255) | Koşullu | — | Evet | Etikete/barkoda basılacak ek bilgi (isteğe bağlı). HMS_W, sayısal değeri profil yüksekliği olarak da kullanır; makinenin çalışma biçimi gerektiriyorsa korunmalıdır. |
 
 ## Uzunluk ve açı gösterimi
 
